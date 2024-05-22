@@ -20,33 +20,6 @@ export const dataInitialization = async (req, res) => {
   }
 };
 
-
-// export const allTranscation = async (req, res) =>{
-//   const { month, page = 1, perPage = 10, search = '' } = req.query;
-
-//     try {
-//         const monthIndex = new Date(Date.parse(month + " 1, 2021")).getMonth();
-//         console.log(monthIndex)
-//         const regex = new RegExp(search, 'i');
-//         console.log(regex)
-//         const transactions = await TransactionModel.find({
-//             dateOfSale: { $gte: new Date(2021, monthIndex, 1), $lt: new Date(2021, monthIndex + 1, 1) },
-//             $or: [
-//                 { title: regex },
-//                 { description: regex }
-//                 // Removed price search since price is a number
-//             ]
-//         }).skip((page - 1) * parseInt(perPage)).limit(parseInt(perPage));
-//         console.log(transactions)
-//         res.status(200).json(transactions);
-//     } catch (error) {
-//         res.status(500).send('Error fetching transactions: ' + error.message);
-//     }
-// }
-
-
-
-
 export const allTranscation = async (req, res) => {
   const { page = 1, perPage = 10, search = '' } = req.query;
 
@@ -107,6 +80,58 @@ export const allTranscationStatistics = async (req, res) => {
 
     console.log(SaleCount, soldCount, notSoldCount)
   res.json({SaleCount, soldCount, notSoldCount});
+  } catch (error) {
+      console.error('Error fetching transactions:', error.message);
+      res.status(500).send('Error fetching transactions: ' + error.message);
+  }
+}
+
+
+export const pieChartData = async (req, res) => {
+  const { month, page = 1, perPage = 10, search = '' } = req.query;
+  const monthNumberMap = {
+    "January": 1,
+    "February": 2,
+    "March": 3,
+    "April": 4,
+    "May": 5,
+    "June": 6,
+    "July": 7,
+    "August": 8,
+    "September": 9,
+    "October": 10,
+    "November": 11,
+    "December": 12
+};
+  
+  const intMonth = monthNumberMap[month]
+  let SaleCount = 0;
+  let soldCount = 0;
+  let notSoldCount = 0;
+   
+  try {
+    
+    const transactions = await TransactionModel.find({
+      $expr: {
+        $eq: [{ $month: "$dateOfSale" }, intMonth]
+      },
+    })
+
+    const categoryCounts = {};
+
+    transactions.forEach(sale => {
+        const category = sale.category;
+        if (categoryCounts[category]) {
+            categoryCounts[category]++;
+        } else {
+            categoryCounts[category] = 1;
+        }
+    });
+
+     
+
+    
+  res.json({categoryCounts});
   } catch (error) {
       console.error('Error fetching transactions:', error.message);
       res.status(500).send('Error fetching transactions: ' + error.message);
