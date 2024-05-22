@@ -135,15 +135,15 @@ export const oneCallForALL = async(req, res) =>{
   const { month } = req.query;
 
     try {
-        const [transactions, statistics, barChart, pieChart] = await Promise.all([
-            axios.get(`http://localhost:3000/transcations?month=${month}`),
+        const [ statistics, barChart, pieChart] = await Promise.all([
+            
             axios.get(`http://localhost:3000/stats?month=${month}`),
             axios.get(`http://localhost:3000/barchart?month=${month}`),
             axios.get(`http://localhost:3000/piechart?month=${month}`)
         ]);
 
         res.status(200).json({
-            transactions: transactions.data,
+            
             statistics: statistics.data,
             barChart: barChart.data,
             pieChart: pieChart.data

@@ -12,11 +12,18 @@ function App() {
   const [statistics, setStatistics] = useState({});
   const [barChart, setBarChart] = useState();
   const [pieChart, setPieChart] = useState();
-
+  
   const fetchData = async () => {
     const response = await axios.get(`http://localhost:3000/transcations`);
     setTransactions(response.data.transactions);
   };
+  
+    const fetchAllData = async () => {
+      const response = await axios.get(`http://localhost:3000/all/?month=${month}`);
+      setStatistics(response.data.statistics)
+      setBarChart(response.data.barChart)
+      setPieChart(response.data.pieChart.categoryCounts)
+    };
 
   const fetchStat = async() =>{
     const response = await axios.get(`http://localhost:3000/stats?month=${month}`);
@@ -35,12 +42,14 @@ function App() {
 
   useEffect(() => {
     fetchData();
+    fetchAllData();
   }, []);
 
   useEffect(() => {
-    fetchStat();
-    fetchPieData()
-    fetchBarData()
+    fetchAllData();
+    // fetchStat();
+    // fetchPieData()
+    // fetchBarData()
   }, [month]);
   return (
     <>
