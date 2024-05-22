@@ -2,6 +2,8 @@ import { Search } from "lucide-react"
 import { useEffect, useState } from "react"
 import axios from "axios";
 import TransactionsTable from "./Components/Transcation";
+import StatCard from "./Components/StatCard";
+import { PieChart } from "./Components/PieChart";
 
 function App() {
   const [month, setMonth] = useState('March')
@@ -15,15 +17,27 @@ function App() {
     const response = await axios.get(`http://localhost:3000/transcations`);
     console.log(response.data.transactions)
     setTransactions(response.data.transactions);
-    setMaxsize(response.data.totalCount)
-    // console.log(transactions)
-    setStatistics(response.data.statistics);
-    setBarChart(response.data.barChart);
-    setPieChart(response.data.pieChart);
   };
+
+  const fetchStat = async() =>{
+    const response = await axios.get(`http://localhost:3000/stats?month=${month}`);
+    console.log(response.data)
+    setStatistics(response.data);
+  }
+
+  const fetchPieData = async() =>{
+    const response = await axios.get(`http://localhost:3000/piechart?month=${month}`);
+    console.log(response.data.categoryCounts)
+    setPieChart(response.data.categoryCounts);
+  }
 
   useEffect(() => {
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    fetchStat();
+    fetchPieData()
   }, [month]);
   return (
     <>
@@ -50,10 +64,12 @@ function App() {
             </select>
         </div>
         </section>
+              <h2 className="text-2xl">Statistics {month}</h2>
+          <StatCard statistics={statistics}/>
           <TransactionsTable transactions={transactions} setTransactions={setTransactions} maxsize={maxsize}/>
-          {/* <Statistics statistics={statistics} />
-            <BarChart data={barChart} />
-          <PieChart data={pieChart} /> */}
+
+          <PieChart pieData={pieChart}/>
+
         </div>
       </div>
     </>

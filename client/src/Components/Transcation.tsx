@@ -93,6 +93,8 @@ const TransactionsTable = ({ transactions, setTransactions, maxsize={}}) => {
                     Next
                 </button>
             </div>
+
+                
         </div>
     );
 };
