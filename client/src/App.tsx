@@ -1,33 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Search } from "lucide-react"
+import { useEffect, useState } from "react"
+import axios from "axios";
+import TransactionsTable from "./Components/Transcation";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [month, setMonth] = useState('March')
+  const [transactions, setTransactions] = useState([]);
+  const [statistics, setStatistics] = useState({});
+  const [barChart, setBarChart] = useState([]);
+  const [pieChart, setPieChart] = useState([]);
 
+  const fetchData = async () => {
+    const response = await axios.get(`http://localhost:3000/api/combined?month=${month}`);
+    setTransactions(response.data.transactions);
+    setStatistics(response.data.statistics);
+    setBarChart(response.data.barChart);
+    setPieChart(response.data.pieChart);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [month]);
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="flex justify-center items-center h-screen">
+
+        <div className="w-1/2">
+          <header className="">
+            <h1 className="text-3xl font-medium">Transactions Dashboard</h1>
+          </header>
+
+          <section className="flex justify-between my-2">
+          <div>
+            <div className=" border-2 rounded flex items-center ">
+              <input type="search" className="w-[80%] px-2 py-2 outline-none" name="" id=""  placeholder="search transcation"/>
+              <button className="font-normal text-sm "><Search/></button>
+            </div>
+          </div>
+          <div>
+
+            <select value={month} onChange={(e) => setMonth(e.target.value)} className="border p-2">
+              {['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map(m => (
+                <option key={m} value={m}>{m}</option>
+              ))}
+            </select>
+        </div>
+        </section>
+          <TransactionsTable transactions={transactions} month={month} />
+          {/* <Statistics statistics={statistics} />
+            <BarChart data={barChart} />
+          <PieChart data={pieChart} /> */}
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
