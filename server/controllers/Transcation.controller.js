@@ -1,0 +1,1 @@
+import TransactionModel from "../models/Transcation.model";
