@@ -5,14 +5,18 @@ import TransactionsTable from "./Components/Transcation";
 
 function App() {
   const [month, setMonth] = useState('March')
+  const [maxsize, setMaxsize] = useState(0)
   const [transactions, setTransactions] = useState([]);
   const [statistics, setStatistics] = useState({});
   const [barChart, setBarChart] = useState([]);
   const [pieChart, setPieChart] = useState([]);
 
   const fetchData = async () => {
-    const response = await axios.get(`http://localhost:3000/api/combined?month=${month}`);
+    const response = await axios.get(`http://localhost:3000/transcations`);
+    console.log(response.data.transactions)
     setTransactions(response.data.transactions);
+    setMaxsize(response.data.totalCount)
+    // console.log(transactions)
     setStatistics(response.data.statistics);
     setBarChart(response.data.barChart);
     setPieChart(response.data.pieChart);
@@ -23,9 +27,9 @@ function App() {
   }, [month]);
   return (
     <>
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center ">
 
-        <div className="w-1/2">
+        <div className="w-2/3">
           <header className="">
             <h1 className="text-3xl font-medium">Transactions Dashboard</h1>
           </header>
@@ -46,7 +50,7 @@ function App() {
             </select>
         </div>
         </section>
-          <TransactionsTable transactions={transactions} month={month} />
+          <TransactionsTable transactions={transactions} setTransactions={setTransactions} maxsize={maxsize}/>
           {/* <Statistics statistics={statistics} />
             <BarChart data={barChart} />
           <PieChart data={pieChart} /> */}
