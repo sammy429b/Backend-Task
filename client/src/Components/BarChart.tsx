@@ -1,55 +1,61 @@
-
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
 ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
 );
 
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-    },
-    title: {
-      display: true,
-      text: 'Chart.js Bar Chart',
-    },
-  },
-};
+export function BarChart({ barChart }) {
+    if (!barChart || barChart.length === 0) {
+        return <div>No data available</div>;
+    }
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+    const options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Sales Distribution by Price Range',
+            },
+        },
+    };
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: 'Dataset 2',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-  ],
-};
+    // Extracting labels and data from the barChart prop
+    const labels = barChart.map(item => item.range);
+    const dataSet = barChart.map(item => item.count);
 
-export function App() {
-  return <Bar options={options} data={data} />;
+    const data = {
+        labels,
+        datasets: [
+            {
+                label: 'Number of Items',
+                data: dataSet,
+                backgroundColor: 'rgba(53, 162, 235, 0.5)',
+            },
+        ],
+    };
+
+    return (
+        <div>
+            <Bar options={options} data={data} />
+        </div>
+    );
 }
+
+

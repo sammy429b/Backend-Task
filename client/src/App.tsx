@@ -4,31 +4,33 @@ import axios from "axios";
 import TransactionsTable from "./Components/Transcation";
 import StatCard from "./Components/StatCard";
 import { PieChart } from "./Components/PieChart";
+import { BarChart } from "./Components/BarChart";
 
 function App() {
   const [month, setMonth] = useState('March')
-  const [maxsize, setMaxsize] = useState(0)
   const [transactions, setTransactions] = useState([]);
   const [statistics, setStatistics] = useState({});
-  const [barChart, setBarChart] = useState([]);
-  const [pieChart, setPieChart] = useState([]);
+  const [barChart, setBarChart] = useState();
+  const [pieChart, setPieChart] = useState();
 
   const fetchData = async () => {
     const response = await axios.get(`http://localhost:3000/transcations`);
-    console.log(response.data.transactions)
     setTransactions(response.data.transactions);
   };
 
   const fetchStat = async() =>{
     const response = await axios.get(`http://localhost:3000/stats?month=${month}`);
-    console.log(response.data)
     setStatistics(response.data);
   }
 
   const fetchPieData = async() =>{
     const response = await axios.get(`http://localhost:3000/piechart?month=${month}`);
-    console.log(response.data.categoryCounts)
     setPieChart(response.data.categoryCounts);
+  }
+
+  const fetchBarData = async() =>{
+    const response = await axios.get(`http://localhost:3000/barchart?month=${month}`);
+    setBarChart(response.data);
   }
 
   useEffect(() => {
@@ -38,6 +40,7 @@ function App() {
   useEffect(() => {
     fetchStat();
     fetchPieData()
+    fetchBarData()
   }, [month]);
   return (
     <>
@@ -66,9 +69,10 @@ function App() {
         </section>
               <h2 className="text-2xl">Statistics {month}</h2>
           <StatCard statistics={statistics}/>
-          <TransactionsTable transactions={transactions} setTransactions={setTransactions} maxsize={maxsize}/>
+          <TransactionsTable transactions={transactions} setTransactions={setTransactions} />
 
           <PieChart pieData={pieChart}/>
+          <BarChart barChart={barChart}/>
 
         </div>
       </div>

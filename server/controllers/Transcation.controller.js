@@ -39,7 +39,6 @@ export const allTranscation = async (req, res) => {
     const transactions = await TransactionModel.find({})
       .skip((page - 1) * perPage)
       .limit(perPage);
-    console.log(totalCount);
     res.json({ transactions, totalCount });
   } catch (error) {
     console.error("Error fetching transactions:", error.message);
