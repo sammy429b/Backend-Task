@@ -6,7 +6,6 @@ const TransactionsTable = ({ transactions, setTransactions, maxsize={}}) => {
     const [search, setSearch] = useState(" ");
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
-    const size = maxsize / 10
     const handleSearch = async () => {
         setLoading(true);
         const response = await axios.get(
@@ -88,7 +87,7 @@ const TransactionsTable = ({ transactions, setTransactions, maxsize={}}) => {
                 <button
                     className="border hover:bg-slate-100 px-4 py-2 rounded transition-all duration-200"
                     onClick={() => handlePageChange(page + 1)}
-                    disabled={page === size}
+                    disabled={page === 6}
                 >
                     Next
                 </button>
