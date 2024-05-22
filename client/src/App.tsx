@@ -46,7 +46,7 @@ function App() {
     <>
       <div className="flex justify-center items-center ">
 
-        <div className="w-2/3">
+        <div className="w-2/3 mt-16">
           <header className="">
             <h1 className="text-3xl font-medium">Transactions Dashboard</h1>
           </header>
@@ -67,7 +67,7 @@ function App() {
             </select>
         </div>
         </section>
-              <h2 className="text-2xl">Statistics {month}</h2>
+              <h2 className="text-2xl">Statistics of {month} </h2>
           <StatCard statistics={statistics}/>
           <TransactionsTable transactions={transactions} setTransactions={setTransactions} />
 
