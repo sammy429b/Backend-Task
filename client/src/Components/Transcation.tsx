@@ -1,17 +1,20 @@
 import { useState } from "react";
 import axios from "axios";
+import { Search } from "lucide-react";
 
-const TransactionsTable = ({ transactions, setTransactions, maxsize={}}) => {
+const TransactionsTable = ({ transactions, setTransactions }) => {
 
-    const [search, setSearch] = useState(" ");
+    const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const handleSearch = async () => {
         setLoading(true);
         const response = await axios.get(
-            `http://localhost:3000/transcations?page=${page}&search=${search}`
+            `http://localhost:3000/transcations?search=${search}`
         );
         // setData(response.data);
+        console.log("clicked",response.data)
+        setTransactions(response.data.transactions)
         setLoading(false);
     };
 
@@ -38,6 +41,15 @@ const TransactionsTable = ({ transactions, setTransactions, maxsize={}}) => {
                 />
                 <button className="py-1 px-2" onClick={handleSearch}>Search</button>
             </div> */}
+
+            <div>
+                <div className=" border-2 rounded flex items-center ">
+                    <input type="search" value={search}
+                        onChange={(e) => (setSearch(e.target.value) )} 
+                        className="w-[95%] px-2 py-2 outline-none" name="" id=""  placeholder="search transcation"/>
+                    <button className="font-normal text-sm " onClick={handleSearch}><Search /></button>
+                </div>
+            </div>
 
             <div className="w-full my-4">
                 {loading ? (
@@ -93,7 +105,7 @@ const TransactionsTable = ({ transactions, setTransactions, maxsize={}}) => {
                 </button>
             </div>
 
-                
+
         </div>
     );
 };

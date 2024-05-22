@@ -22,16 +22,44 @@ export const dataInitialization = async (req, res) => {
 export const allTranscation = async (req, res) => {
   const { page = 1, perPage = 10, search = "" } = req.query;
   try {
-    const totalCount = await TransactionModel.countDocuments();
-    const transactions = await TransactionModel.find({})
+    // Construct the search query
+    let searchQuery = {};
+
+    if (search) {
+      const priceRegex = /^\d+(\.\d+)?$/; // Regular expression to match numeric values
+      const isPrice = priceRegex.test(search); // Check if search term is a number
+
+      if (isPrice) {
+        // If search term is a number, directly match it to the price field
+        searchQuery = { price: parseFloat(search) };
+      } else {
+        // If search term is not a number, search in title and description fields
+        searchQuery = {
+          $or: [
+            { title: { $regex: search, $options: "i" } },
+            {category : { $regex: search, $options: "i" } },
+            { description: { $regex: search, $options: "i" } },
+          ],
+        };
+      }
+    }
+
+    // Fetch total count of matching documents
+    const totalCount = await TransactionModel.countDocuments(searchQuery);
+
+    // Fetch transactions with pagination and search applied
+    const transactions = await TransactionModel.find(searchQuery)
       .skip((page - 1) * perPage)
-      .limit(perPage);
+      .limit(parseInt(perPage));
+
+    // Return the response with transactions and total count
     res.json({ transactions, totalCount });
   } catch (error) {
     console.error("Error fetching transactions:", error.message);
     res.status(500).send("Error fetching transactions: " + error.message);
   }
 };
+
 
 // Get transaction statistics for a specified month
 export const allTranscationStatistics = async (req, res) => {
