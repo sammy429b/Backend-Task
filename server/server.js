@@ -11,12 +11,12 @@ const port = process.env.PORT || 4000;
 
 // Middleware
 const corsOptions = {
-    origin: 'https://sales-task-frontend.vercel.app/',
-    // origin: 'http://localhost:5173/',
+    // origin: 'https://sales-task-frontend.vercel.app/',
+    origin: 'http://localhost:5173/',
     optionsSuccessStatus: 200,
   };
  
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json()); // If you're working with JSON requests
 
 // Routes
