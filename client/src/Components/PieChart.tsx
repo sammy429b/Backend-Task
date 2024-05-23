@@ -16,7 +16,7 @@ export function PieChart({ pieData }: any) {
     labels: keys,
     datasets: [
       {
-        label: 'Category',
+        label: 'Count',
         data: values,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
