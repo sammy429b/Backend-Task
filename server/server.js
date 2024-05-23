@@ -11,7 +11,7 @@ const port = process.env.PORT || 4000;
 
 // Middleware
 const corsOptions = {
-    origin: 'sales-task-frontend.vercel.app',
+    origin: 'https://sales-task-frontend.vercel.app/',
     // origin: 'http://localhost:5173/',
     optionsSuccessStatus: 200,
   };
