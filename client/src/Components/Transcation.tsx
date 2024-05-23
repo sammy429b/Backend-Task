@@ -1,5 +1,5 @@
-import { useState } from "react";
 import axios from "axios";
+import { useState } from "react";
 import { Search } from "lucide-react";
 
 const TransactionsTable = ({ transactions, setTransactions }) => {
@@ -7,48 +7,61 @@ const TransactionsTable = ({ transactions, setTransactions }) => {
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
+
+    // Function to handle search operation
     const handleSearch = async () => {
         setLoading(true);
         const response = await axios.get(
             `http://localhost:3000/transcations?search=${search}`
         );
-        // setData(response.data);
-        console.log("clicked",response.data)
+        console.log("clicked", response.data)
         setTransactions(response.data.transactions)
         setLoading(false);
     };
 
+     // Function to handle pagination
     const handlePageChange = async (newPage) => {
-        setPage(newPage);
-        setLoading(true);
-        const response = await axios.get(
-            `http://localhost:3000/transcations?page=${newPage}`
-        );
-        // setData(response.data);
-        setTransactions(response.data.transactions)
-        setLoading(false);
+        try{
+            setPage(newPage);
+            setLoading(true);
+            const response = await axios.get(
+                `http://localhost:3000/transcations?page=${newPage}`
+            );
+            setTransactions(response.data.transactions)
+            setLoading(false);
+        }catch(error){
+            console.log("Error in pagination", error.message)
+        }finally{
+            setLoading(false)
+        }
     };
 
     return (
         <div>
-            {/* <div className="border-2">
-                <input
-                    type="text"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Search transactions"
-                    className="py-1 px-2 outline-none"
-                />
-                <button className="py-1 px-2" onClick={handleSearch}>Search</button>
-            </div> */}
-
             <div>
                 <div className=" border-2 rounded flex items-center ">
                     <input type="search" value={search}
-                        onChange={(e) => (setSearch(e.target.value) )} 
-                        className="w-[95%] px-2 py-2 outline-none" name="" id=""  placeholder="search transcation"/>
+                        onChange={(e) => (setSearch(e.target.value))}
+                        className="w-[95%] px-2 py-2 outline-none" name="" id="" placeholder="search transcation" />
                     <button className="font-normal text-sm " onClick={handleSearch}><Search /></button>
                 </div>
+            </div>
+
+            <div className="my-4 flex justify-between">
+                <button
+                    className="border hover:bg-slate-100 px-4 py-2 rounded transition-all duration-200"
+                    onClick={() => handlePageChange(page - 1)}
+                    disabled={page === 1}
+                >
+                    Previous
+                </button>
+                <button
+                    className="border hover:bg-slate-100 px-4 py-2 rounded transition-all duration-200"
+                    onClick={() => handlePageChange(page + 1)}
+                    disabled={page === 6}
+                >
+                    Next
+                </button>
             </div>
 
             <div className="w-full my-4">
@@ -87,25 +100,6 @@ const TransactionsTable = ({ transactions, setTransactions }) => {
                     </table>
                 )}
             </div>
-
-            <div className="my-4 flex justify-between">
-                <button
-                    className="border hover:bg-slate-100 px-4 py-2 rounded transition-all duration-200"
-                    onClick={() => handlePageChange(page - 1)}
-                    disabled={page === 1}
-                >
-                    Previous
-                </button>
-                <button
-                    className="border hover:bg-slate-100 px-4 py-2 rounded transition-all duration-200"
-                    onClick={() => handlePageChange(page + 1)}
-                    disabled={page === 6}
-                >
-                    Next
-                </button>
-            </div>
-
-
         </div>
     );
 };

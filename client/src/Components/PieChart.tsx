@@ -42,11 +42,11 @@ export function PieChart({ pieData }) {
   return (
     <div className='mt-8'>
       <h2 className='text-2xl'> Pie Chart</h2>
-    <div className='flex flex-col justify-center items-center'>
-      <div className='w-1/2'>
-        <Pie data={data} />
+      <div className='flex flex-col justify-center items-center'>
+        <div className='w-1/2'>
+          <Pie data={data} />
+        </div>
       </div>
-    </div>
     </div>
   );
 }
