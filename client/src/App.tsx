@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import axios from "axios";
 import TransactionsTable from "./Components/Transcation";
 import StatCard from "./Components/StatisticsCard";
 import { PieChart } from "./Components/PieChart";
@@ -16,7 +15,7 @@ function App() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(ApiConfig.transcation);
+      const response = await ApiConfig.get('/transcations');
       setTransactions(response.data.transactions);
     } catch (error:any) {
       console.log("Error in transcation api call", error.message)
@@ -25,7 +24,7 @@ function App() {
 
   const fetchAllData = async () => {
     try {
-      const response = await axios.get(ApiConfig.all + `?month=${month}`);
+      const response = await ApiConfig.get(`/all?month=${month}`);
       setStatistics(response.data.statistics)
       setBarChart(response.data.barChart)
       setPieChart(response.data.pieChart.categoryCounts)

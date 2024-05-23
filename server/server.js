@@ -10,10 +10,11 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 // Middleware
-app.use(cors({
-    origin: 'https://sales-task-frontend.vercel.app', 
-  }));
+// app.use(cors({
+//     origin: 'https://sales-task-frontend.vercel.app', 
+//   }));
   
+app.use(cors())
 app.use(express.json()); // If you're working with JSON requests
 
 // Routes

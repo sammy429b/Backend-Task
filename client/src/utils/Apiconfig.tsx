@@ -6,10 +6,13 @@
 //     static bar = `http://localhost:3000/barchart`
 // }
 
-export class ApiConfig{
-    static transcation = `https://sales-task-backend.vercel.app/transcations`
-    static all = `https://sales-task-backend.vercel.app/all`
-    static stat = `https://sales-task-backend.vercel.app/stats`
-    static pie = `https://sales-task-backend.vercel.app/piechart`
-    static bar = `https://sales-task-backend.vercel.app/barchart`
-}
+import axios from "axios";
+
+export const ApiConfig = axios.create({
+    baseURL: 'https://sales-task-backend.vercel.app/',
+        headers: {
+          "Cache-Control": "no-cache",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+  });

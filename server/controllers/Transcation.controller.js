@@ -164,9 +164,9 @@ export const oneCallForALL = async (req, res) => {
   try {
     const [statistics, barChart, pieChart] = await Promise.all([
 
-      axios.get(`http://localhost:3000/stats?month=${month}`),
-      axios.get(`http://localhost:3000/barchart?month=${month}`),
-      axios.get(`http://localhost:3000/piechart?month=${month}`)
+      axios.get(`https://sales-task-frontend.vercel.app?month=${month}`),
+      axios.get(`https://sales-task-frontend.vercel.app?month=${month}`),
+      axios.get(`https://sales-task-frontend.vercel.app?month=${month}`)
     ]);
 
     res.status(200).json({

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import { Search } from "lucide-react";
 import { ApiConfig } from "../utils/Apiconfig";
@@ -12,9 +11,7 @@ const TransactionsTable = ({ transactions, setTransactions }:any) => {
     // Function to handle search operation
     const handleSearch = async () => {
         setLoading(true);
-        const response = await axios.get(
-            ApiConfig.transcation + `?search=${search}`
-        );
+        const response = await ApiConfig.get(`/transcations?search=${search}`);
         setTransactions(response.data.transactions)
         setLoading(false);
     };
@@ -24,9 +21,7 @@ const TransactionsTable = ({ transactions, setTransactions }:any) => {
         try{
             setPage(newPage);
             setLoading(true);
-            const response = await axios.get(
-                ApiConfig.transcation + `?page=${newPage}`
-            );
+            const response = await ApiConfig.get(`/transcations?page=${newPage}`);
             setTransactions(response.data.transactions)
             setLoading(false);
         }catch(error:any){
