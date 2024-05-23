@@ -4,6 +4,7 @@ import TransactionsTable from "./Components/Transcation";
 import StatCard from "./Components/StatisticsCard";
 import { PieChart } from "./Components/PieChart";
 import { BarChart } from "./Components/BarChart";
+import { ApiConfig } from "./utils/Apiconfig";
 
 function App() {
   const [month, setMonth] = useState('March')
@@ -15,50 +16,50 @@ function App() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/transcations`);
+      const response = await axios.get(ApiConfig.transcation);
       setTransactions(response.data.transactions);
-    } catch (error) {
+    } catch (error:any) {
       console.log("Error in transcation api call", error.message)
     }
   };
 
   const fetchAllData = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/all/?month=${month}`);
+      const response = await axios.get(ApiConfig.all + `?month=${month}`);
       setStatistics(response.data.statistics)
       setBarChart(response.data.barChart)
       setPieChart(response.data.pieChart.categoryCounts)
-    } catch (error) {
+    } catch (error:any) {
       console.log("Error in combines api call", error.message)
     }
   };
 
-  const fetchStat = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3000/stats?month=${month}`);
-      setStatistics(response.data);
-    } catch (error) {
-      console.log("Error in Statistics api call", error.message)
-    }
-  }
+  // const fetchStat = async () => {
+  //   try {
+  //     const response = await axios.get(ApiConfig.stat + `?month=${month}`);
+  //     setStatistics(response.data);
+  //   } catch (error:any) {
+  //     console.log("Error in Statistics api call", error.message)
+  //   }
+  // }
 
-  const fetchPieData = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3000/piechart?month=${month}`);
-      setPieChart(response.data.categoryCounts);
-    } catch (error) {
-      console.log("Error in Piechart api call", error.message)
-    }
-  }
+  // const fetchPieData = async () => {
+  //   try {
+  //     const response = await axios.get(ApiConfig.pie + `?month=${month}`);
+  //     setPieChart(response.data.categoryCounts);
+  //   } catch (error) {
+  //     console.log("Error in Piechart api call", error.message)
+  //   }
+  // }
 
-  const fetchBarData = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3000/barchart?month=${month}`);
-      setBarChart(response.data);
-    } catch (error) {
-      console.log("Error in Barchart api call", error.message)
-    }
-  }
+  // const fetchBarData = async () => {
+  //   try {
+  //     const response = await axios.get(ApiConfig.bar + `?month=${month}`);
+  //     setBarChart(response.data);
+  //   } catch (error) {
+  //     console.log("Error in Barchart api call", error.message)
+  //   }
+  // }
 
   useEffect(() => {
     fetchData();

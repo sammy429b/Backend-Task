@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 import { Search } from "lucide-react";
+import { ApiConfig } from "../utils/Apiconfig";
 
-const TransactionsTable = ({ transactions, setTransactions }) => {
+const TransactionsTable = ({ transactions, setTransactions }:any) => {
 
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
@@ -12,23 +13,23 @@ const TransactionsTable = ({ transactions, setTransactions }) => {
     const handleSearch = async () => {
         setLoading(true);
         const response = await axios.get(
-            `http://localhost:3000/transcations?search=${search}`
+            ApiConfig.transcation + `?search=${search}`
         );
         setTransactions(response.data.transactions)
         setLoading(false);
     };
 
      // Function to handle pagination
-    const handlePageChange = async (newPage) => {
+    const handlePageChange = async (newPage:any) => {
         try{
             setPage(newPage);
             setLoading(true);
             const response = await axios.get(
-                `http://localhost:3000/transcations?page=${newPage}`
+                ApiConfig.transcation + `?page=${newPage}`
             );
             setTransactions(response.data.transactions)
             setLoading(false);
-        }catch(error){
+        }catch(error:any){
             console.log("Error in pagination", error.message)
         }finally{
             setLoading(false)
@@ -80,7 +81,7 @@ const TransactionsTable = ({ transactions, setTransactions }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {transactions.map((transaction) => (
+                            {transactions.map((transaction:any) => (
                                 <tr key={transaction.id}>
                                     <td className="border-2 px-6 py-2">{transaction.id}</td>
                                     <td className="border-2 px-6 py-2">{transaction.title}</td>

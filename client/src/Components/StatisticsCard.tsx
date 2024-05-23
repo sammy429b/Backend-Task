@@ -1,5 +1,5 @@
 
-function StatCard({ statistics }) {
+function StatCard({ statistics }:any) {
     return (
         <>
             <div className="grid gap-4 lg:gap-8 md:grid-cols-3 p-8">

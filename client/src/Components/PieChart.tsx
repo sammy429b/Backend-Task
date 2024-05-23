@@ -3,7 +3,7 @@ import { Pie } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export function PieChart({ pieData }) {
+export function PieChart({ pieData }: any) {
   // Check if pieData is defined and not null
   if (!pieData) {
     return <div>No data available</div>;

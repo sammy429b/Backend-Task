@@ -18,7 +18,7 @@ ChartJS.register(
     Legend
 );
 
-export function BarChart({ barChart }) {
+export function BarChart({ barChart }:any) {
     // Check if barChart is not defined or empty array
     if (!barChart || barChart.length === 0) {
         return <div>No data available</div>;
@@ -28,7 +28,7 @@ export function BarChart({ barChart }) {
         responsive: true,
         plugins: {
             legend: {
-                position: 'top',
+                position: "top" as "top",
             },
             title: {
                 display: true,
@@ -54,8 +54,8 @@ export function BarChart({ barChart }) {
     };
 
     // Extracting labels and data from the barChart prop
-    const labels = barChart.map(item => item.range);
-    const counts = barChart.map(item => item.count);
+    const labels = barChart.map((item:any) => item.range);
+    const counts = barChart.map((item:any) => item.count);
 
     const data = {
         labels,
