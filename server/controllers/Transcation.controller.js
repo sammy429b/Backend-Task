@@ -1,7 +1,7 @@
-import TransactionModel from "../models/Transcation.model.js";
-import {monthNumberMap,priceRanges} from "../utils/data.js"
 import axios from "axios";
 import dotenv from "dotenv";
+import TransactionModel from "../models/Transcation.model.js";
+import { monthNumberMap, priceRanges } from "../utils/data.js"
 
 dotenv.config();
 
@@ -37,7 +37,7 @@ export const allTranscation = async (req, res) => {
         searchQuery = {
           $or: [
             { title: { $regex: search, $options: "i" } },
-            {category : { $regex: search, $options: "i" } },
+            { category: { $regex: search, $options: "i" } },
             { description: { $regex: search, $options: "i" } },
           ],
         };
@@ -135,7 +135,7 @@ export const barChartData = async (req, res) => {
   let SaleCount = 0;
   let soldCount = 0;
   let notSoldCount = 0;
-  
+
 
   try {
     const transactions = await TransactionModel.find({
@@ -159,24 +159,24 @@ export const barChartData = async (req, res) => {
   }
 };
 
-export const oneCallForALL = async(req, res) =>{
+export const oneCallForALL = async (req, res) => {
   const { month } = req.query;
 
-    try {
-        const [ statistics, barChart, pieChart] = await Promise.all([
-            
-            axios.get(`http://localhost:3000/stats?month=${month}`),
-            axios.get(`http://localhost:3000/barchart?month=${month}`),
-            axios.get(`http://localhost:3000/piechart?month=${month}`)
-        ]);
+  try {
+    const [statistics, barChart, pieChart] = await Promise.all([
 
-        res.status(200).json({
-            
-            statistics: statistics.data,
-            barChart: barChart.data,
-            pieChart: pieChart.data
-        });
-    } catch (error) {
-        res.status(500).send('Error fetching combined data: ' + error.message);
-    }
+      axios.get(`http://localhost:3000/stats?month=${month}`),
+      axios.get(`http://localhost:3000/barchart?month=${month}`),
+      axios.get(`http://localhost:3000/piechart?month=${month}`)
+    ]);
+
+    res.status(200).json({
+
+      statistics: statistics.data,
+      barChart: barChart.data,
+      pieChart: pieChart.data
+    });
+  } catch (error) {
+    res.status(500).send('Error fetching combined data: ' + error.message);
+  }
 }
