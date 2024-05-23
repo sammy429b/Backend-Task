@@ -44,7 +44,8 @@ Create a `.env` file in the root directory of your project and add the following
 
 ```plaintext
 PORT = 3000
-SERPAPI_API_KEY = "Enter_Your_API_Key"
+MONGO_URI = "YOUR_MONGODB_URI"
+TRANSCATION_API = "https://s3.amazonaws.com/roxiler.com/product_transaction.json"
 ```
 
 ### Running the Server

@@ -14,7 +14,6 @@ const TransactionsTable = ({ transactions, setTransactions }) => {
         const response = await axios.get(
             `http://localhost:3000/transcations?search=${search}`
         );
-        console.log("clicked", response.data)
         setTransactions(response.data.transactions)
         setLoading(false);
     };

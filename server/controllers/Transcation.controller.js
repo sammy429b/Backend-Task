@@ -88,7 +88,6 @@ export const allTranscationStatistics = async (req, res) => {
       SaleCount = SaleCount + transaction.price;
     });
 
-    console.log(SaleCount, soldCount, notSoldCount);
     res.json({ SaleCount, soldCount, notSoldCount });
   } catch (error) {
     console.error("Error fetching transactions:", error.message);
