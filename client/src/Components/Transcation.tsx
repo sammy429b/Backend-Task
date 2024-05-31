@@ -2,7 +2,15 @@ import { useState } from "react";
 import { Search } from "lucide-react";
 import { ApiConfig } from "../utils/Apiconfig";
 
+
+
 const TransactionsTable = ({ transactions, setTransactions }:any) => {
+    
+    function newDate(date){
+        let d = new Date(date)
+        let da =  d.getFullYear() +"-" + d.getMonth() + "-"+  d.getDate()  
+        return da ;
+    }
 
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
@@ -84,7 +92,7 @@ const TransactionsTable = ({ transactions, setTransactions }:any) => {
                                         {transaction.description}
                                     </td>
                                     <td className="border-2 px-6 py-2">{transaction.price}</td>
-                                    <td className="border-2 px-6 py-2">{transaction.dateOfSale}</td>
+                                    <td className="border-2 px-6 py-2">{newDate(transaction.dateOfSale)}</td>
                                     <td className="border-2 px-6 py-2">{transaction.category}</td>
                                     <td className="border-2 px-6 py-2">
                                         {transaction.sold ? "Yes" : "No"}
