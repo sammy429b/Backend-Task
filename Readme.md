@@ -70,4 +70,4 @@ To run the Express server, follow these steps:
     npm run start
     ```
 
-5. If the server starts successfully, you should see a message indicating that the server is running and listening on a specific port.
+5. If the server starts successfully, you should see a message indicating that the server is running and listening on a port.
